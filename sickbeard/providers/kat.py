@@ -48,9 +48,9 @@ class KATProvider(generic.TorrentProvider):
 
         self.cache = KATCache(self)
         
-        self.url = 'http://katproxy.com/'
+        self.url = 'http://kickass.so'
 
-        self.searchurl = self.url+'usearch/%s/?field=seeders&sorder=desc'  #order by seed       
+        self.searchurl = self.url+'/usearch/%s/?field=seeders&sorder=desc'  #order by seed       
 
     def isEnabled(self):
         return sickbeard.KAT
@@ -198,10 +198,8 @@ class KATProvider(generic.TorrentProvider):
                 search_string['Episode'].append(ep_string)
         else:
             for show_name in set(allPossibleShowNames(ep_obj.show)):
-                ep_string = sanitizeSceneName(show_name) +' '+ \
-                sickbeard.config.naming_ep_type[2] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +'|'+\
-                sickbeard.config.naming_ep_type[0] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +'|'+\
-                sickbeard.config.naming_ep_type[3] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} + ' category:tv' \
+                ep_string = sanitizeSceneName(show_name) +' '+\
+                sickbeard.config.naming_ep_type[4] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} + ' category:tv' \
 
                 search_string['Episode'].append(ep_string)
     
@@ -219,7 +217,7 @@ class KATProvider(generic.TorrentProvider):
                     searchURL = self.searchurl %(urllib.quote(unidecode(search_string)))    
                     logger.log(u"Search string: " + searchURL, logger.DEBUG)
                 else:
-                    searchURL = self.url + 'tv/?field=time_add&sorder=desc'
+                    searchURL = self.url + '/tv/?field=time_add&sorder=desc'
                     logger.log(u"KAT cache update URL: "+ searchURL, logger.DEBUG)
                     
                 html = self.getURL(searchURL)
@@ -242,7 +240,7 @@ class KATProvider(generic.TorrentProvider):
                         try:
                             link = self.url + (tr.find('div', {'class': 'torrentname'}).find_all('a')[1])['href']
                             id = tr.get('id')[-7:]
-                            title = (tr.find('div', {'class': 'torrentname'}).find_all('a')[1]).text
+                            title = (tr.find('div', {'class': 'torrentname'}).find_all('a')[2]).text
                             url = tr.find('a', 'imagnet')['href']
                             verified = True if tr.find('a', 'iverify') else False
                             trusted =  True if tr.find('img', {'alt': 'verified'}) else False
