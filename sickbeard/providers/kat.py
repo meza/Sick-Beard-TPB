@@ -199,7 +199,8 @@ class KATProvider(generic.TorrentProvider):
         else:
             for show_name in set(allPossibleShowNames(ep_obj.show)):
                 ep_string = sanitizeSceneName(show_name) +' '+\
-                sickbeard.config.naming_ep_type[4] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} + ' category:tv' \
+                sickbeard.config.naming_ep_type[4] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} + '|' +\
+                sickbeard.config.naming_ep_type[1] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +  ' category:tv' \
 
                 search_string['Episode'].append(ep_string)
     
